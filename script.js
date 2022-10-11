@@ -1,6 +1,6 @@
 import Player from './player.js'
 import InputHandler from './input.js'
-
+import Enemy from './enemy.js'
 
 
 
@@ -11,12 +11,6 @@ window.addEventListener('load', function () {
   const ctx = canvas.getContext('2d')
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
-
-  const backgroundLayer1 = this.document.getElementById('background1')
-  const backgroundLayer2 = this.document.getElementById('background2')
-  const backgroundLayer3 = this.document.getElementById('background3')
-  const backgroundLayer4 = this.document.getElementById('background4')
-  const backgroundLayer5 = this.document.getElementById('background5')
 
   let gameSpeed = 2;
   let gameFrame = 0;
@@ -48,17 +42,26 @@ window.addEventListener('load', function () {
       );
     }
   }
-
-  const layer1 = new Layer(backgroundLayer1, 0.2);
-  const layer2 = new Layer(backgroundLayer2, 0.4);
-  const layer3 = new Layer(backgroundLayer3, 0.6);
-  const layer4 = new Layer(backgroundLayer4, 0.8);
-  const layer5 = new Layer(backgroundLayer5, 1);
+  
+  const layer1 = new Layer(this.document.getElementById("background1"), 0.2);
+  const layer2 = new Layer(this.document.getElementById("background2"), 0.4);
+  const layer3 = new Layer(this.document.getElementById("background3"), 0.6);
+  const layer4 = new Layer(this.document.getElementById("background4"), 0.8);
+  const layer5 = new Layer(this.document.getElementById("background5"), 1);
 
   const gameObjects = [layer1, layer2, layer3, layer4, layer5];
-
-
   
+  let enemies = [];
+  let counter = 0
+  function handleEnemies() {
+    if (counter % 400 == 0) {
+      enemies.push(new Enemy(canvas.width, canvas.height))
+    }
+    enemies.forEach(enemy => {
+      enemy.draw(ctx)
+      enemy.update(enemies)
+    })
+  }
   const player = new Player(canvas.width, canvas.height)
   const input = new InputHandler()
 
@@ -71,7 +74,10 @@ window.addEventListener('load', function () {
     gameFrame--;
     player.update(input.lastKey)
     player.draw(ctx)
+    handleEnemies()
+    counter++
     requestAnimationFrame(animate)
+    console.log(enemies)
   }
   animate()
 })
