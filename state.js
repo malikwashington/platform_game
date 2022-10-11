@@ -136,7 +136,10 @@ export class JumpingLeft extends State{
   }
   handleInput(input){
     if (this.player.vy > 0) this.player.setState(states.FALLING_LEFT)
-    if (input === "PRESS right") this.player.setState(states.JUMPING_RIGHT)
+    if (input === "PRESS right") {
+      this.player.setState(states.JUMPING_RIGHT)
+      this.player.speed = this.player.maxSpeed / 2
+    }
     else if (this.player.onGround()) this.player.setState(states.STANDING_LEFT)
   }
 }
@@ -155,7 +158,10 @@ export class JumpingRight extends State {
   }
   handleInput(input){
     if (this.player.vy > 0) this.player.setState(states.FALLING_RIGHT)
-    if (input === "PRESS left") this.player.setState(states.JUMPING_LEFT)
+    if (input === "PRESS left") {
+      this.player.setState(states.JUMPING_LEFT)
+      this.player.speed = -this.player.maxSpeed / 2
+    }
     else if (this.player.onGround()) this.player.setState(states.STANDING_RIGHT)
   }  
 }
@@ -170,7 +176,10 @@ export class FallingLeft extends State{
     this.player.frameY = 5
   }
   handleInput(input){
-    if (input === "PRESS right") this.player.setState(states.FALLING_RIGHT)
+    if (input === "PRESS right") {
+      this.player.setState(states.FALLING_RIGHT)
+      this.player.speed = this.player.maxSpeed / 2
+    }
     else if (this.player.onGround()) this.player.setState(states.STANDING_LEFT)
   }
 }
@@ -185,7 +194,10 @@ export class FallingRight extends State{
     this.player.frameY = 4
   }
   handleInput(input) {
-    if (input === "PRESS left") this.player.setState(states.FALLING_LEFT)
+    if (input === "PRESS left") {
+      this.player.setState(states.FALLING_LEFT)
+      this.player.speed = -this.player.maxSpeed / 2
+    }
     else if (this.player.onGround()) this.player.setState(states.STANDING_RIGHT)
   }
 }

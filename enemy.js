@@ -8,9 +8,20 @@ export default class Enemy {
     this.x = this.gameWidth;
     this.y = this.gameHeight - this.height-181;
     this.frameX = 0;
-    this.enemies = [];
+    this.delete = false;
+    this.avoided = 0
   }
   draw(context) {
+    context.strokeStyle = "white";
+    context.beginPath();
+    context.arc(
+      this.x + this.width / 2,
+      this.y + this.height / 2,
+      this.width / 2,
+      0,
+      Math.PI * 2
+    );
+    context.stroke();
     context.drawImage(
       this.image,
       this.frameX * this.width,
@@ -23,10 +34,11 @@ export default class Enemy {
       this.height
     );
   }
-  update(arr) {
+  update() {
     this.x--
-    if (this.x < -1) {
-    console.log(arr.indexOf(this))
+    if (this.x < 0 - this.width) {
+      this.delete = true;
+      this.avoided++;
     }
   }
 }

@@ -8,7 +8,7 @@ import {
   JumpingLeft,
   JumpingRight,
   FallingLeft,
-  FallingRight
+  FallingRight,
 } from "./state.js";
 export default class Player {
   constructor(gameWidth, gameHeight) {
@@ -31,7 +31,7 @@ export default class Player {
     this.width = 200;
     this.height = 181.83;
     this.x = (this.gameWidth - this.width) / 2;
-    this.y = this.gameHeight - this.height -181;
+    this.y = this.gameHeight - this.height - 181;
     this.vy = 0;
     this.weight = 0.5;
     this.frameX = 0;
@@ -39,8 +39,19 @@ export default class Player {
     this.maxFrame = 6;
     this.speed = 0;
     this.maxSpeed = 10;
+    this.gameOver = false;
   }
   draw(context) {
+    context.strokeStyle = "white";
+    context.beginPath();
+    context.arc(
+      this.x + this.width / 2,
+      this.y + this.height / 2,
+      this.width / 2,
+      0,
+      Math.PI * 2
+    );
+    context.stroke();
     if (this.frameX < this.maxFrame) this.frameX++;
     else this.frameX = 0;
     context.drawImage(
@@ -55,18 +66,25 @@ export default class Player {
       this.height
     );
   }
-  update(input) {
+  update(input, array) {
     this.currentState.handleInput(input);
     this.x += this.speed;
     if (this.x <= 0) this.x = 0;
-    else if (this.x >= this.gameWidth - this.width) this.x = this.gameWidth - this.width;
+    else if (this.x >= this.gameWidth - this.width)
+      this.x = this.gameWidth - this.width;
     this.y += this.vy;
     if (!this.onGround()) {
       this.vy += this.weight;
     } else {
       this.vy = 0;
     }
-
+    //collision detection
+    array.forEach(enemy => {
+      const dx = (enemy.x + enemy.width/2) - (this.x + this.width/2)
+      const dy = (enemy.y + enemy.height/2) - (this.y + this.height/2)
+      const dist = Math.sqrt(dx * dx + dy * dy)
+      if (dist < enemy.width / 2 + this.width / 2) return true
+    });
   }
   setState(state) {
     this.currentState = this.states[state];
@@ -74,6 +92,6 @@ export default class Player {
   }
 
   onGround() {
-    return this.y >= this.gameHeight - this.height -181;
+    return this.y >= this.gameHeight - this.height - 181;
   }
 }
