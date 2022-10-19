@@ -65,7 +65,7 @@ window.addEventListener('load', function () {
   const layer3 = new Layer(this.document.getElementById("background3"), 0.6);
   const layer4 = new Layer(this.document.getElementById("background4"), 0.8);
   const layer5 = new Layer(this.document.getElementById("background5"), 1);
-  
+
   const gameObjects = [layer1, layer2, layer3, layer4, layer5];
   
   let enemies = [];
@@ -82,7 +82,6 @@ window.addEventListener('load', function () {
   }
   const player = new Player(canvas.width, canvas.height)
   const input = new InputHandler()
-  console.log(this.player.gameOver)
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)

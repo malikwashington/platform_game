@@ -31,7 +31,7 @@ export default class Player {
     this.width = 200;
     this.height = 181.83;
     this.x = (this.gameWidth - this.width) / 2;
-    this.y = this.gameHeight - this.height - 181;
+    this.y = this.gameHeight * .835 - this.height;
     this.vy = 0;
     this.weight = 0.5;
     this.frameX = 0;
@@ -92,6 +92,6 @@ export default class Player {
   }
 
   onGround() {
-    return this.y >= this.gameHeight - this.height - 181;
+    return this.y >= this.gameHeight * .835 - this.height;
   }
 }
