@@ -1,6 +1,6 @@
 import Player from './player.js'
 import InputHandler from './input.js'
-import Enemy from './enemy.js'
+import Enemy from './ground_enemy.js'
 // import {drawStatusText} from './utils.js'
 
 
@@ -12,6 +12,9 @@ window.addEventListener('load', function () {
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
   let score = 0;
+  console.log(`width: ${canvas.width} height: ${canvas.height}`)
+  const player = new Player(canvas.width, canvas.height);
+  const input = new InputHandler();
   
   let gameSpeed = 2;
   let gameFrame = 0;
@@ -44,27 +47,27 @@ window.addEventListener('load', function () {
       }
     }
   
-  function drawStatusText() {
+  function drawStatusText(gameOver) {
     ctx.font = "40px Helvetica";
     ctx.fillStyle = "black";
     ctx.fillText("Score: " + score, 20, 50);
     ctx.font = "40px Helvetica";
     ctx.fillStyle = "white";
     ctx.fillText("Score: " + score, 22, 52);
-  //   if ((gameOver = true)) {
-  //     ctx.textAlign = "center";
-  //     ctx.fillStyle = "black";
-  //     ctx.fillText("GAME OVER", 20, 50);
-  //     ctx.fillStyle = "white";
-  //     ctx.fillText("GAME OVER", 22, 52);
-  //   }
+    if (gameOver = true) {
+      ctx.textAlign = "center";
+      ctx.fillStyle = "black";
+      ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 3);
+      ctx.fillStyle = "white";
+      ctx.fillText("GAME OVER", (canvas.width / 2) + 2, (canvas.height / 3) + 2);
+    }
   }
   
-  const layer1 = new Layer(this.document.getElementById("background1"), 0.2);
-  const layer2 = new Layer(this.document.getElementById("background2"), 0.4);
-  const layer3 = new Layer(this.document.getElementById("background3"), 0.6);
-  const layer4 = new Layer(this.document.getElementById("background4"), 0.8);
-  const layer5 = new Layer(this.document.getElementById("background5"), 1);
+  const layer1 = new Layer(this.document.getElementById("background1"), player.motion * 0.2);
+  const layer2 = new Layer(this.document.getElementById("background2"), player.motion * 0.4);
+  const layer3 = new Layer(this.document.getElementById("background3"), player.motion * 0.6);
+  const layer4 = new Layer(this.document.getElementById("background4"), player.motion * 0.8);
+  const layer5 = new Layer(this.document.getElementById("background5"), player.motion * 1);
 
   const gameObjects = [layer1, layer2, layer3, layer4, layer5];
   
@@ -80,8 +83,6 @@ window.addEventListener('load', function () {
     })
     enemies = enemies.filter(enemy => !enemy.delete)
   }
-  const player = new Player(canvas.width, canvas.height)
-  const input = new InputHandler()
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -90,12 +91,13 @@ window.addEventListener('load', function () {
       object.draw();
     });
     gameFrame--;
+    handleEnemies()
     player.update(input.lastKey, enemies)
     player.draw(ctx)
-    handleEnemies()
-    drawStatusText()
+    drawStatusText(player.gameOver)
     counter++
-    requestAnimationFrame(animate);
+    if (!player.gameOver) requestAnimationFrame(animate)
+      else;
   }
   animate()
   

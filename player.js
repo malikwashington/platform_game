@@ -40,6 +40,7 @@ export default class Player {
     this.speed = 0;
     this.maxSpeed = 10;
     this.gameOver = false;
+    this.motion = 1
   }
   draw(context) {
     context.strokeStyle = "white";
@@ -83,7 +84,7 @@ export default class Player {
       const dx = (enemy.x + enemy.width/2) - (this.x + this.width/2)
       const dy = (enemy.y + enemy.height/2) - (this.y + this.height/2)
       const dist = Math.sqrt(dx * dx + dy * dy)
-      if (dist < enemy.width / 2 + this.width / 2) return true
+      if (dist < enemy.width / 2 + this.width / 2) this.gameOver = true
     });
   }
   setState(state) {
