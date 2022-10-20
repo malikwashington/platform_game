@@ -21,7 +21,7 @@ export default class Enemy {
       0,
       Math.PI * 2
     );
-    context.stroke();
+    // context.stroke(); this is the hitbox (circle)
     context.drawImage(
       this.image,
       this.frameX * this.width,

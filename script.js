@@ -1,7 +1,7 @@
 import Player from './player.js'
 import InputHandler from './input.js'
 import Enemy from './ground_enemy.js'
-// import {drawStatusText} from './utils.js'
+import {drawStatusText} from './utils.js'
 
 
 window.addEventListener('load', function () {
@@ -11,7 +11,7 @@ window.addEventListener('load', function () {
   const ctx = canvas.getContext('2d')
   canvas.width = window.innerWidth
   canvas.height = window.innerHeight
-  let score = 0;
+  // let score = 0;
   console.log(`width: ${canvas.width} height: ${canvas.height}`)
   const player = new Player(canvas.width, canvas.height);
   const input = new InputHandler();
@@ -47,21 +47,21 @@ window.addEventListener('load', function () {
       }
     }
   
-  function drawStatusText(gameOver) {
-    ctx.font = "40px Helvetica";
-    ctx.fillStyle = "black";
-    ctx.fillText("Score: " + score, 20, 50);
-    ctx.font = "40px Helvetica";
-    ctx.fillStyle = "white";
-    ctx.fillText("Score: " + score, 22, 52);
-    if (gameOver = true) {
-      ctx.textAlign = "center";
-      ctx.fillStyle = "black";
-      ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 3);
-      ctx.fillStyle = "white";
-      ctx.fillText("GAME OVER", (canvas.width / 2) + 2, (canvas.height / 3) + 2);
-    }
-  }
+  // function drawStatusText(gameOver) {
+  //   ctx.font = "40px Helvetica";
+  //   ctx.fillStyle = "black";
+  //   ctx.fillText("Score: " + score, 20, 50);
+  //   ctx.font = "40px Helvetica";
+  //   ctx.fillStyle = "white";
+  //   ctx.fillText("Score: " + score, 22, 52);
+  //   if (gameOver = true) {
+  //     ctx.textAlign = "center";
+  //     ctx.fillStyle = "black";
+  //     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 3);
+  //     ctx.fillStyle = "white";
+  //     ctx.fillText("GAME OVER", (canvas.width / 2) + 2, (canvas.height / 3) + 2);
+  //   }
+  // }
   
   const layer1 = new Layer(this.document.getElementById("background1"), player.motion * 0.2);
   const layer2 = new Layer(this.document.getElementById("background2"), player.motion * 0.4);
@@ -94,7 +94,7 @@ window.addEventListener('load', function () {
     handleEnemies()
     player.update(input.lastKey, enemies)
     player.draw(ctx)
-    drawStatusText(player.gameOver)
+    drawStatusText(ctx, canvas.width, canvas.height, player.gameOver)
     counter++
     if (!player.gameOver) requestAnimationFrame(animate)
       else;

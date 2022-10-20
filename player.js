@@ -52,7 +52,7 @@ export default class Player {
       0,
       Math.PI * 2
     );
-    context.stroke();
+    // context.stroke(); this is the hitbox (circle)
     if (this.frameX < this.maxFrame) this.frameX++;
     else this.frameX = 0;
     context.drawImage(
